@@ -4,6 +4,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { readdirSync } = require('fs');
 const connectDB = require('./config/db');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 
@@ -30,8 +32,7 @@ readdirSync('./routes').map((file) => {
   app.use(require(`./routes/${file}`));
 });
 
-const port = 8080;
 
-app.listen(port, () => {
-  console.log(`Server start at port ${port}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Server start at port ${process.env.SERVER_PORT}`);
 });
