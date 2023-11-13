@@ -1,23 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import FormProduct from './components/FormProduct';
 
 function App() {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    await axios.get('http://localhost:8080/product')
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err))
+  }
+
+  console.log(data);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>CRUD</h1>
+      <FormProduct />
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            data ? data.map((item, index) => 
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item.name}</td>
+                <td>{item.description}</td>
+                <td>{item.price}</td>
+              </tr>
+            ) : null
+          }
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -6,7 +6,7 @@ const product = require('../controllers/product');
 const { auth } = require('../middleware/auth');
 
 // http://localhost:8080/product
-router.get('/product', auth, product.list);
+router.get('/product', product.list);
 
 // http://localhost:8080/product/5
 router.get('/product/:id', product.read);
