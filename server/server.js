@@ -29,7 +29,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 
 // Route 3
 readdirSync('./routes').map((file) => {
-  app.use(require(`./routes/${file}`));
+  app.use('/api', require(`./routes/${file}`));
 });
 
 

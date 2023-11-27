@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     user = new User({
       username,
       password
-    })
+    })              
 
     user.password = await bcrypt.hash(password, salt);
 
@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
     }
 
     // Generate token
-    jwt.sign(payload, "jwtSecret", { expiresIn: 20 }, ( err, token) => {
+    jwt.sign(payload, "jwtSecret", { expiresIn: 20 }, (err, token) => {
       if (err) throw err;
       res.json({ token, payload });
     });
