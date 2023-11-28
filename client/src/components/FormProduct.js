@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import { 
+  getData,
+  craete, 
+  remove
+} from '../functions/product';
 
 const FormProduct = () => {
   const [data, setData] = useState([]);
@@ -10,7 +14,7 @@ const FormProduct = () => {
   }, []);
 
   const loadData = async () => {
-    await axios.get(process.env.REACT_APP_API + '/product')
+    getData()
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }
@@ -24,7 +28,7 @@ const FormProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(process.env.REACT_APP_API + '/product', form)
+    craete(form)
       .then((res) => {
         console.log(res.data);
         loadData();
@@ -33,7 +37,7 @@ const FormProduct = () => {
   }
 
   const handleRemove = async (id) => {
-    await axios.delete(process.env.REACT_APP_API + '/product/' + id)
+    remove(id)
       .then((res) => {
         console.log(res.data);
         loadData();
@@ -94,4 +98,4 @@ const FormProduct = () => {
   )
 }
 
-export default FormProduct
+export default FormProduct 
