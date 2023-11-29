@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import { 
-  getData,
+  listData,
   craete, 
   remove
 } from '../functions/product';
@@ -14,7 +16,7 @@ const FormProduct = () => {
   }, []);
 
   const loadData = async () => {
-    getData()
+    listData()
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
   }
@@ -55,18 +57,21 @@ const FormProduct = () => {
           onChange={e => handleChange(e)}
           placeholder='name'
         /> <br/>
+
         <input 
           type='text'
           name='description'
           onChange={e => handleChange(e)}
           placeholder='description'
         /> <br/>
+
         <input 
           type='number'
           name='price'
           onChange={e => handleChange(e)}
           placeholder='price'
         /> <br/>
+        
         <input type='submit'></input>
       </form>
 
@@ -88,7 +93,15 @@ const FormProduct = () => {
                 <td>{item.name}</td>
                 <td>{item.description}</td>
                 <td>{item.price}</td>
-                <td onClick={() => handleRemove(item._id)}>Remove</td>
+                <td>
+                  <Link to={'/edit/' + item._id}>
+                    <button>Edit</button>
+                  </Link>
+                  &nbsp;|&nbsp;
+                  <button onClick={() => handleRemove(item._id)}>
+                    Remove
+                  </button>
+                </td>
               </tr>
             ) : null
           }
