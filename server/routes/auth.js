@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { register, login, list } = require('../controllers/auth');
+const { register, login } = require('../controllers/auth');
 
 // http://localhost:8080/resgister
-router.post('/resgister', register);
+router.post('/register', register);
 
 // http://localhost:8080/login
 router.post('/login', login);
