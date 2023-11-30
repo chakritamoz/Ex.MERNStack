@@ -13,6 +13,8 @@ const FormEditProduct = () => {
     price: 0
   });
 
+  const [oldFile, setOldFile] = useState();
+
   useEffect(() => {
     loadData(params.id)
   }, []);
@@ -21,23 +23,33 @@ const FormEditProduct = () => {
     readData(id)
       .then((res) => {
         setData(res.data);
+        console.log(res.data.file);
+        setOldFile(res.data.file);
       });
   }
 
   const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value
-    });
+    if (e.target.name === 'file') {
+      setData({
+        ...data,
+        [e.target.name]: e.target.files[0]
+      });  
+    } else {
+      setData({
+        ...data,
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    update(params.id, data)
-      .then((res) => {
-        navigate('/');
-      })
-      .catch((err) => console.log(err));
+    console.log(data);
+  //   update(params.id, data)
+  //     .then((res) => {
+  //       navigate('/');
+  //     })
+  //     .catch((err) => console.log(err));
   }
 
   return (
@@ -45,24 +57,26 @@ const FormEditProduct = () => {
       <div>FormEditProduct</div>
 
       <form onSubmit={handleSubmit}>
-        <input 
-          type='text'
+        <input type='text'
           name='name'
           onChange={handleChange}
           placeholder='name'
           value={data.name}
         /> <br />
 
-        <input
-          type='text'
+        <input type='text'
           name='description'
           onChange={handleChange}
           placeholder='description'
           value={data.description}
         /> <br />
 
-        <input 
-          type='number'
+        <input type='file'
+          name='file'
+          onChange={handleChange}
+        />
+
+        <input type='number'
           name='price'
           onChange={handleChange}
           placeholder='price'

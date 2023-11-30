@@ -22,15 +22,29 @@ const FormProduct = () => {
   }
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+
+    if (e.target.name === 'file') {
+      setForm({
+        ...form,
+        [e.target.name]: e.target.files[0]
+      });
+    } else {
+      setForm({
+        ...form,
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    craete(form)
+    const formWithImageData = new FormData();
+
+    for (const key in form) {
+      formWithImageData.append(key, form[key]);
+    }
+
+    craete(formWithImageData)
       .then((res) => {
         console.log(res.data);
         loadData();
@@ -50,23 +64,25 @@ const FormProduct = () => {
   return (
     <div>
       Form product
-      <form onSubmit={handleSubmit}>
-        <input 
-          type='text'
+      <form onSubmit={handleSubmit} encType='multipart/form-data'>
+        <input type='text'
           name='name'
           onChange={e => handleChange(e)}
           placeholder='name'
         /> <br/>
 
-        <input 
-          type='text'
+        <input type='text'
           name='description'
           onChange={e => handleChange(e)}
           placeholder='description'
         /> <br/>
 
-        <input 
-          type='number'
+        <input type='file'
+          name='file'
+          onChange={e => handleChange(e)}
+        /> <br />
+
+        <input type='number'
           name='price'
           onChange={e => handleChange(e)}
           placeholder='price'
