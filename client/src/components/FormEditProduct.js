@@ -23,7 +23,6 @@ const FormEditProduct = () => {
     readData(id)
       .then((res) => {
         setData(res.data);
-        console.log(res.data.file);
         setOldFile(res.data.file);
       });
   }
@@ -44,19 +43,27 @@ const FormEditProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
-  //   update(params.id, data)
-  //     .then((res) => {
-  //       navigate('/');
-  //     })
-  //     .catch((err) => console.log(err));
+
+    const formWithImageData = new FormData();
+
+    for (const key in data) {
+      formWithImageData.append(key, data[key]);
+    }
+    formWithImageData.append("oldFile", oldFile);
+    console.log(formWithImageData);
+
+    update(params.id, formWithImageData)
+      .then((res) => {
+        navigate('/');
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
     <div>
       <div>FormEditProduct</div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType='multipart/form-data'>
         <input type='text'
           name='name'
           onChange={handleChange}
@@ -74,7 +81,7 @@ const FormEditProduct = () => {
         <input type='file'
           name='file'
           onChange={handleChange}
-        />
+        /> <br />
 
         <input type='number'
           name='price'

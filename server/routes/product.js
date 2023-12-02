@@ -16,7 +16,7 @@ router.get('/product/:id', product.read);
 router.post('/product', upload, product.create);
 
 // http://localhost:8080/product/5
-router.put('/product/:id', product.update);
+router.put('/product/:id', upload, product.update);
 
 // http://localhost:8080/product
 router.delete('/product/:id', product.remove);

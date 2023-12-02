@@ -39,12 +39,24 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
+    let newData = req.body;
+
+    if (req.file) {
+      newData.file = req.file.filename
+      
+      await fs.unlink('./uploads/' + newData.oldFile, (err) => {
+        if (err) console.log(err);
+        else console.log(`Remove file success`);
+      });
+    };
+
     const product = await Product
       .findOneAndUpdate(
         { _id: id },
-        req.body,
+        newData,
         { new: true }
-      ).exec();
+      );
+
     res.send(product);
   } catch (err) {
     console.log(err);

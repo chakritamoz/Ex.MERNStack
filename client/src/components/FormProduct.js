@@ -97,6 +97,7 @@ const FormProduct = () => {
             <th>No.</th>
             <th>Name</th>
             <th>Description</th>
+            <th>File</th>
             <th>Price</th>
             <th>Action</th>
           </tr>
@@ -108,6 +109,7 @@ const FormProduct = () => {
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.description}</td>
+                <td>{item.file}</td>
                 <td>{item.price}</td>
                 <td>
                   <Link to={'/edit/' + item._id}>
